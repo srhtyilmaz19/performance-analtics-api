@@ -47,3 +47,9 @@ DB_PASSWORD=YOUR_MONGO_DB_PASSWORD
 npm start //development mode
 npm start:prod //production mode
 ```
+
+# K6 RPS test.
+
+![Screen Shot 2021-05-09 at 12 26 00 AM](https://user-images.githubusercontent.com/82615231/117569777-047e3c00-b0d0-11eb-8d38-931815a04b58.png)
+
+
