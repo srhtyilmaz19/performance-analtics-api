@@ -21,12 +21,13 @@ exports.getMetrics = async (req, res) => {
       },
     }).sort("timestamp");
 
-    return returnJsonResponse(
-      res,
+    const data = {
+      startDate,
+      endDate,
       metrics,
-      200,
-      "metrics retrieved successfully"
-    );
+    };
+
+    return returnJsonResponse(res, data, 200, "metrics retrieved successfully");
   } catch (e) {
     return returnJsonResponse(res, null, 404, e);
   }
@@ -50,7 +51,7 @@ exports.createMetric = async (req, res) => {
     timestamp: req.timestamp,
   });
   res.status(200).json({
-    message: "create metrics",
+    message: "metrics created successfully",
     data: newMetric,
     status: 200,
   });
