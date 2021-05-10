@@ -1,18 +1,18 @@
 const express = require("express");
 const metricController = require("../controllers/metricController");
-const getMetricsValidations = require("../requests/metrics/getMetricsValidations");
-const createMetricsValidations = require("../requests/metrics/createMetricsValidations");
 const router = express.Router();
-const { checkSchema } = require("express-validator");
+
+const metricValidation = require("../validations/metric-validations");
+const MetricValidation = new metricValidation();
 
 router.post(
   "/",
-  checkSchema(getMetricsValidations),
+  MetricValidation.validateGetMetrics,
   metricController.getMetrics
 );
 router.post(
   "/create",
-  checkSchema(createMetricsValidations),
+  MetricValidation.validateStoreMetrics,
   metricController.createMetric
 );
 

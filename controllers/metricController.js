@@ -1,6 +1,5 @@
 const Metric = require("../models/metricModel");
 const { returnJsonResponse } = require("../traits/httpTrait");
-const { validationResult } = require("express-validator");
 const redis = require("redis");
 
 const client = redis.createClient({
@@ -15,18 +14,6 @@ const getMetricsSuccess = "metrics retrieved successfully";
 const saveMetricSuccess = "metric created successfully";
 
 exports.getMetrics = (req, res) => {
-  const errors = validationResult(req);
-
-  if (!errors.isEmpty()) {
-    return returnJsonResponse(res, null, 400, errors.array());
-  }
-
-  const instance = {
-    domain: req.body.domain,
-    startDate: req.startDate,
-    endDate: req.endDate,
-  };
-
   client.get(req.cacheKey, async (err, cachedData) => {
     if (cachedData) {
       return returnJsonResponse(
@@ -36,7 +23,11 @@ exports.getMetrics = (req, res) => {
         getMetricsSuccess
       );
     }
-    MetricInteractor.getMetrics(instance)
+    MetricInteractor.getMetrics({
+      domain: req.body.domain,
+      startDate: req.startDate,
+      endDate: req.endDate,
+    })
       .then(function (metrics) {
         client.setex(req.cacheKey, 5 * 1000, JSON.stringify(metrics));
         return returnJsonResponse(res, metrics, 200, getMetricsSuccess);
@@ -48,12 +39,6 @@ exports.getMetrics = (req, res) => {
 };
 
 exports.createMetric = (req, res) => {
-  const errors = validationResult(req);
-
-  if (!errors.isEmpty()) {
-    return returnJsonResponse(res, null, 400, errors.array());
-  }
-
   MetricInteractor.saveMetric({ ...req.body, timestamp: req.timestamp })
     .then(function (metric) {
       return returnJsonResponse(res, metric, 200, saveMetricSuccess);

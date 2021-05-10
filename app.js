@@ -12,6 +12,8 @@ if (process.env.NODE_ENV === "development") {
 }
 
 app.use((req, res, next) => {
+  res.setHeader("Content-Type", "application/json");
+
   const timestamp = Math.floor(Date.now() / 1000);
   req.timestamp = timestamp;
   req.startDate = req.body.start_date || timestamp - 30 * 60;
