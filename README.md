@@ -81,11 +81,11 @@ Why i'm gettting redis error !.
 ```javascript
 Emitted 'error' event on RedisClient
 
-  errno: 'ECONNREFUSED',
-  code: 'ECONNREFUSED',
-  syscall: 'connect',
-  address: '127.0.0.1',
-  port: 6379
+errno: 'ECONNREFUSED',
+code: 'ECONNREFUSED',
+syscall: 'connect',
+address: '127.0.0.1',
+port: 6379
 ```
 
 You should start redis in your server . you can check [redis documentation](https://redis.io/) for more information

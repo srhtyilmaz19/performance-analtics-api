@@ -16,7 +16,9 @@ describe("POST /api/v1/metrics/create", () => {
   const resource_load = 500;
   const files = [];
 
-  //Test store metrics api !
+  const saveMetricSuccess = "metric created successfully";
+  const errorMessage = (type) => `${type} field can not be null`;
+
   it("Should NOT store metrics without domain param", (done) => {
     const body = {
       fcp,
@@ -38,9 +40,7 @@ describe("POST /api/v1/metrics/create", () => {
         expect(response.body).to.have.property("message");
         expect(response.body.message.length).to.equal(1);
         expect(response.body.message[0]).to.have.property("msg");
-        expect(response.body.message[0].msg).to.equal(
-          "Domain field can not be null"
-        );
+        expect(response.body.message[0].msg).to.equal(errorMessage("Domain"));
 
         response.body.should.be.a("object");
         response.body.message[0].should.be.a("object");
@@ -71,9 +71,7 @@ describe("POST /api/v1/metrics/create", () => {
         expect(response.body).to.have.property("message");
         expect(response.body.message.length).to.equal(1);
         expect(response.body.message[0]).to.have.property("msg");
-        expect(response.body.message[0].msg).to.equal(
-          "fcp field can not be null"
-        );
+        expect(response.body.message[0].msg).to.equal(errorMessage("fcp"));
 
         response.body.should.be.a("object");
         response.body.message[0].should.be.a("object");
@@ -104,9 +102,7 @@ describe("POST /api/v1/metrics/create", () => {
         expect(response.body).to.have.property("message");
         expect(response.body.message.length).to.equal(1);
         expect(response.body.message[0]).to.have.property("msg");
-        expect(response.body.message[0].msg).to.equal(
-          "ttfb field can not be null"
-        );
+        expect(response.body.message[0].msg).to.equal(errorMessage("ttfb"));
 
         response.body.should.be.a("object");
         response.body.message[0].should.be.a("object");
@@ -138,7 +134,7 @@ describe("POST /api/v1/metrics/create", () => {
         expect(response.body.message.length).to.equal(1);
         expect(response.body.message[0]).to.have.property("msg");
         expect(response.body.message[0].msg).to.equal(
-          "window_load field can not be null"
+          errorMessage("window_load")
         );
 
         response.body.should.be.a("object");
@@ -170,9 +166,7 @@ describe("POST /api/v1/metrics/create", () => {
         expect(response.body).to.have.property("message");
         expect(response.body.message.length).to.equal(1);
         expect(response.body.message[0]).to.have.property("msg");
-        expect(response.body.message[0].msg).to.equal(
-          "dom_load field can not be null"
-        );
+        expect(response.body.message[0].msg).to.equal(errorMessage("dom_load"));
 
         response.body.should.be.a("object");
         response.body.message[0].should.be.a("object");
@@ -204,7 +198,7 @@ describe("POST /api/v1/metrics/create", () => {
         expect(response.body.message.length).to.equal(1);
         expect(response.body.message[0]).to.have.property("msg");
         expect(response.body.message[0].msg).to.equal(
-          "resource_load field can not be null"
+          errorMessage("resource_load")
         );
 
         response.body.should.be.a("object");
@@ -234,7 +228,7 @@ describe("POST /api/v1/metrics/create", () => {
         response.should.have.status(200);
         response.body.should.be.a("object");
         response.body.data.should.be.a("object");
-        expect(response.body.message).to.equal("metrics created successfully");
+        expect(response.body.message).to.equal(saveMetricSuccess);
 
         done();
       });
@@ -262,7 +256,7 @@ describe("POST /api/v1/metrics/create", () => {
 
         const { data } = response.body;
 
-        expect(response.body.message).to.equal("metrics created successfully");
+        expect(response.body.message).to.equal(saveMetricSuccess);
         expect(data.domain).to.equal(body.domain);
         expect(data.fcp).to.equal(body.fcp);
         expect(data.ttfb).to.equal(body.ttfb);

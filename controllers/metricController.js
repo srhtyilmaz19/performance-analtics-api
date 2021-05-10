@@ -8,70 +8,57 @@ const client = redis.createClient({
   port: process.env.REDIS_PORT,
 });
 
-const successMessage = "metrics retrieved successfully";
+let metricInteractor = require("../interactors/metrics-interactos");
+const MetricInteractor = new metricInteractor();
 
-exports.getMetrics = async (req, res) => {
+const getMetricsSuccess = "metrics retrieved successfully";
+const saveMetricSuccess = "metric created successfully";
+
+exports.getMetrics = (req, res) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
     return returnJsonResponse(res, null, 400, errors.array());
   }
 
-  const startDate = req.body.start_date || req.timestamp - 30 * 60;
-  const endDate = req.body.end_date || req.timestamp;
+  const instance = {
+    domain: req.body.domain,
+    startDate: req.startDate,
+    endDate: req.endDate,
+  };
 
-  const cacheKey = `get-metrics-between-${startDate}-${endDate}`;
-
-  client.get(cacheKey, async (err, data) => {
-    if (data) {
-      return returnJsonResponse(res, JSON.parse(data), 200, successMessage);
+  client.get(req.cacheKey, async (err, cachedData) => {
+    if (cachedData) {
+      return returnJsonResponse(
+        res,
+        JSON.parse(cachedData),
+        200,
+        getMetricsSuccess
+      );
     }
-
-    try {
-      const metrics = await Metric.find({
-        domain: req.body.domain,
-        timestamp: {
-          $gte: startDate,
-          $lte: endDate,
-        },
-      }).sort("timestamp");
-
-      const data = {
-        startDate,
-        endDate,
-        metrics,
-      };
-
-      client.setex(cacheKey, 5 * 1000, JSON.stringify(data));
-
-      return returnJsonResponse(res, data, 200, successMessage);
-    } catch (e) {
-      return returnJsonResponse(res, null, 404, e);
-    }
+    MetricInteractor.getMetrics(instance)
+      .then(function (metrics) {
+        client.setex(req.cacheKey, 5 * 1000, JSON.stringify(metrics));
+        return returnJsonResponse(res, metrics, 200, getMetricsSuccess);
+      })
+      .catch(function (error) {
+        return returnJsonResponse(res, null, 404, error);
+      });
   });
 };
 
-exports.createMetric = async (req, res) => {
+exports.createMetric = (req, res) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
     return returnJsonResponse(res, null, 400, errors.array());
   }
 
-  const newMetric = await Metric.create({
-    domain: req.body.domain,
-    fcp: req.body.fcp,
-    ttfb: req.body.ttfb,
-    dom_load: req.body.dom_load,
-    window_load: req.body.window_load,
-    files: req.body.files || [],
-    resource_load: req.body.resource_load,
-    timestamp: req.timestamp,
-  });
-
-  res.status(200).json({
-    message: "metrics created successfully",
-    data: newMetric,
-    status: 200,
-  });
+  MetricInteractor.saveMetric({ ...req.body, timestamp: req.timestamp })
+    .then(function (metric) {
+      return returnJsonResponse(res, metric, 200, saveMetricSuccess);
+    })
+    .catch(function (error) {
+      return returnJsonResponse(res, null, 404, error);
+    });
 };

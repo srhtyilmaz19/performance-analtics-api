@@ -8,8 +8,8 @@ chai.should();
 chai.use(chaiHttp);
 
 describe("POST /api/v1/metrics", () => {
-  //Test get metrics api !
-  const successMessage = "metrics retrieved successfully";
+  const getMetricsSuccess = "metrics retrieved successfully";
+
   it("Should NOT get metrics without domain param", (done) => {
     chai
       .request(server)
@@ -43,7 +43,7 @@ describe("POST /api/v1/metrics", () => {
         response.should.have.status(200);
         response.body.should.be.a("object");
         response.body.data.should.be.a("object");
-        expect(response.body.message).to.equal(successMessage);
+        expect(response.body.message).to.equal(getMetricsSuccess);
         done();
       });
   });
@@ -85,7 +85,7 @@ describe("POST /api/v1/metrics", () => {
         response.should.have.status(200);
         response.body.should.be.a("object");
         response.body.data.should.be.a("object");
-        expect(response.body.message).to.equal(successMessage);
+        expect(response.body.message).to.equal(getMetricsSuccess);
         done();
       });
   });

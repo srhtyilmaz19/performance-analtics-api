@@ -12,7 +12,12 @@ if (process.env.NODE_ENV === "development") {
 }
 
 app.use((req, res, next) => {
-  req.timestamp = Math.floor(Date.now() / 1000);
+  const timestamp = Math.floor(Date.now() / 1000);
+  req.timestamp = timestamp;
+  req.startDate = req.body.start_date || timestamp - 30 * 60;
+  req.endDate = req.body.end_date || timestamp;
+  req.cacheKey = `cacheKey${req.url}/${req.startDate}/${req.endDate}`;
+
   next();
 });
 app.use(cors());
