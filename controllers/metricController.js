@@ -1,5 +1,4 @@
-const Metric = require("../models/metricModel");
-const { returnJsonResponse } = require("../traits/httpTrait");
+const { returnJsonResponse } = require("../helpers/http-helper");
 const redis = require("redis");
 
 const client = redis.createClient({

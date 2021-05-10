@@ -1,5 +1,5 @@
 "use strict";
-const { returnJsonResponse } = require("../traits/httpTrait");
+const { returnJsonResponse } = require("../helpers/http-helper");
 const { checkIfPropIsValid } = require("../helpers/object-helper");
 
 class MetricValidation {
