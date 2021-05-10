@@ -74,6 +74,22 @@ npm test
 Runs a predefined tests of the project. \
 Results will shown on the console.
 
+### Common Questions
+
+Why i'm gettting redis error !.
+
+```javascript
+Emitted 'error' event on RedisClient
+
+  errno: 'ECONNREFUSED',
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+```
+
+You should start redis in your server . you can check [redis documentation](https://redis.io/) for more information
+
 # K6 RPS test.
 
 ![Screen Shot 2021-05-10 at 4 12 24 AM](https://user-images.githubusercontent.com/82615231/117595231-eacd0b00-b148-11eb-8cd1-e64b3148bfd7.png)
