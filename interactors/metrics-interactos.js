@@ -26,7 +26,7 @@ class MetricInteractor {
     );
   }
 
-  saveMetric(request) {
+  storeMetric(request) {
     return new Promise(
       (resolve) => {
         return Metric.create(request, function (err, metric) {

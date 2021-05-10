@@ -15,13 +15,15 @@ Here is the folder structure of the project.
     ├──metricRoutes.js
     test
     |--get-metrics-api.test.js
+    |--helpers.test.js
     |--store-metrics-api.test.js
-    traits
-    ├──httpTrait.js
-    requests
-    ├──metrics
-        ├──createMetricsValidations.js
-        ├──getMetricsValidations.js
+    helpers
+    ├──http-helper.js
+    ├──object-helper.js
+    interactors
+    ├──metric-interactors.js
+    validations
+    ├──metric-validations.js
     app.js
     server.js
     config.env

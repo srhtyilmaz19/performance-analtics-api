@@ -13,7 +13,7 @@ router.post(
 router.post(
   "/create",
   MetricValidation.validateStoreMetrics,
-  metricController.createMetric
+  metricController.storeMetric
 );
 
 module.exports = router;

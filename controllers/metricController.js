@@ -37,8 +37,8 @@ exports.getMetrics = (req, res) => {
   });
 };
 
-exports.createMetric = (req, res) => {
-  MetricInteractor.saveMetric({ ...req.body, timestamp: req.timestamp })
+exports.storeMetric = (req, res) => {
+  MetricInteractor.storeMetric({ ...req.body, timestamp: req.timestamp })
     .then(function (metric) {
       return returnJsonResponse(res, metric, 200, saveMetricSuccess);
     })
