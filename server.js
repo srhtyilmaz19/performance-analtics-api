@@ -1,7 +1,7 @@
 const dotenv = require("dotenv");
 dotenv.config({ path: "./config.env" });
 const app = require("./app");
-require("./database/index");
+require("./database/database");
 
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {
