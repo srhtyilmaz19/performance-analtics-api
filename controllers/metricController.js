@@ -8,6 +8,8 @@ const client = redis.createClient({
   port: 6379,
 });
 
+const successMessage = "metrics retrieved successfully";
+
 exports.getMetrics = async (req, res) => {
   const errors = validationResult(req);
 
@@ -22,12 +24,7 @@ exports.getMetrics = async (req, res) => {
 
   client.get(cacheKey, async (err, data) => {
     if (data) {
-      return returnJsonResponse(
-        res,
-        JSON.parse(data),
-        200,
-        "metrics retrieved successfully"
-      );
+      return returnJsonResponse(res, JSON.parse(data), 200, successMessage);
     }
 
     try {
@@ -47,12 +44,7 @@ exports.getMetrics = async (req, res) => {
 
       client.setex(cacheKey, 5 * 1000, JSON.stringify(data));
 
-      return returnJsonResponse(
-        res,
-        data,
-        200,
-        "metrics retrieved successfully"
-      );
+      return returnJsonResponse(res, data, 200, successMessage);
     } catch (e) {
       return returnJsonResponse(res, null, 404, e);
     }
@@ -76,6 +68,7 @@ exports.createMetric = async (req, res) => {
     resource_load: req.body.resource_load,
     timestamp: req.timestamp,
   });
+
   res.status(200).json({
     message: "metrics created successfully",
     data: newMetric,

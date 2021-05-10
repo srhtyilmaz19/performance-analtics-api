@@ -1,14 +1,11 @@
 const express = require("express");
 const app = express();
 const morgan = require("morgan");
-const bodyParser = require("body-parser");
 const cors = require("cors");
 
 const metricRouter = require("./routes/metricRoutes");
 
-app.use(bodyParser.json());
-
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
 
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
