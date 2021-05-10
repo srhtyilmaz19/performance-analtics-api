@@ -76,4 +76,4 @@ Results will shown on the console.
 
 # K6 RPS test.
 
-![Screen Shot 2021-05-09 at 12 26 00 AM](https://user-images.githubusercontent.com/82615231/117569777-047e3c00-b0d0-11eb-8d38-931815a04b58.png)
+![Screen Shot 2021-05-10 at 4 12 24 AM](https://user-images.githubusercontent.com/82615231/117595231-eacd0b00-b148-11eb-8cd1-e64b3148bfd7.png)
