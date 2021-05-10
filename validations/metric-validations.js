@@ -7,7 +7,7 @@ class MetricValidation {
     const { domain } = req.body;
 
     if (!domain) {
-      return returnJsonResponse(res, null, 400, "Domain");
+      return returnJsonResponse(res, null, 400, "domain");
     }
 
     next();

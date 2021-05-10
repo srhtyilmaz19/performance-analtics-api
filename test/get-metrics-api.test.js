@@ -18,13 +18,12 @@ describe("POST /api/v1/metrics", () => {
       .end((err, response) => {
         response.should.have.status(400);
         response.body.should.be.a("object");
-        response.body.message.should.be.a("array");
-        response.body.message[0].should.be.a("object");
+        response.body.message.should.be.a("object");
 
         expect(response.body).to.have.property("message");
-        expect(response.body.message[0]).to.have.property("msg");
-        expect(response.body.message[0].msg).to.equal(
-          "Domain field can not be null"
+        expect(response.body.message).to.have.property("error");
+        expect(response.body.message.error).to.equal(
+          "domain field can not be null"
         );
         done();
       });

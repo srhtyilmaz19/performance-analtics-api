@@ -38,13 +38,11 @@ describe("POST /api/v1/metrics/create", () => {
 
         expect(response).to.have.property("text");
         expect(response.body).to.have.property("message");
-        expect(response.body.message.length).to.equal(1);
-        expect(response.body.message[0]).to.have.property("msg");
-        expect(response.body.message[0].msg).to.equal(errorMessage("Domain"));
+        expect(response.body.message).to.have.property("error");
+        expect(response.body.message.error).to.equal(errorMessage("domain"));
 
         response.body.should.be.a("object");
-        response.body.message[0].should.be.a("object");
-        response.body.message.should.be.a("array");
+        response.body.message.should.be.a("object");
 
         done();
       });
@@ -69,13 +67,11 @@ describe("POST /api/v1/metrics/create", () => {
 
         expect(response).to.have.property("text");
         expect(response.body).to.have.property("message");
-        expect(response.body.message.length).to.equal(1);
-        expect(response.body.message[0]).to.have.property("msg");
-        expect(response.body.message[0].msg).to.equal(errorMessage("fcp"));
+        expect(response.body.message).to.have.property("error");
+        expect(response.body.message.error).to.equal(errorMessage("fcp"));
 
         response.body.should.be.a("object");
-        response.body.message[0].should.be.a("object");
-        response.body.message.should.be.a("array");
+        response.body.message.should.be.a("object");
 
         done();
       });
@@ -100,13 +96,11 @@ describe("POST /api/v1/metrics/create", () => {
 
         expect(response).to.have.property("text");
         expect(response.body).to.have.property("message");
-        expect(response.body.message.length).to.equal(1);
-        expect(response.body.message[0]).to.have.property("msg");
-        expect(response.body.message[0].msg).to.equal(errorMessage("ttfb"));
+        expect(response.body.message).to.have.property("error");
+        expect(response.body.message.error).to.equal(errorMessage("ttfb"));
 
         response.body.should.be.a("object");
-        response.body.message[0].should.be.a("object");
-        response.body.message.should.be.a("array");
+        response.body.message.should.be.a("object");
 
         done();
       });
@@ -131,15 +125,13 @@ describe("POST /api/v1/metrics/create", () => {
 
         expect(response).to.have.property("text");
         expect(response.body).to.have.property("message");
-        expect(response.body.message.length).to.equal(1);
-        expect(response.body.message[0]).to.have.property("msg");
-        expect(response.body.message[0].msg).to.equal(
+        expect(response.body.message).to.have.property("error");
+        expect(response.body.message.error).to.equal(
           errorMessage("window_load")
         );
 
         response.body.should.be.a("object");
-        response.body.message[0].should.be.a("object");
-        response.body.message.should.be.a("array");
+        response.body.message.should.be.a("object");
 
         done();
       });
@@ -164,13 +156,11 @@ describe("POST /api/v1/metrics/create", () => {
 
         expect(response).to.have.property("text");
         expect(response.body).to.have.property("message");
-        expect(response.body.message.length).to.equal(1);
-        expect(response.body.message[0]).to.have.property("msg");
-        expect(response.body.message[0].msg).to.equal(errorMessage("dom_load"));
+        expect(response.body.message).to.have.property("error");
+        expect(response.body.message.error).to.equal(errorMessage("dom_load"));
 
         response.body.should.be.a("object");
-        response.body.message[0].should.be.a("object");
-        response.body.message.should.be.a("array");
+        response.body.message.should.be.a("object");
 
         done();
       });
@@ -195,15 +185,13 @@ describe("POST /api/v1/metrics/create", () => {
 
         expect(response).to.have.property("text");
         expect(response.body).to.have.property("message");
-        expect(response.body.message.length).to.equal(1);
-        expect(response.body.message[0]).to.have.property("msg");
-        expect(response.body.message[0].msg).to.equal(
+        expect(response.body.message).to.have.property("error");
+        expect(response.body.message.error).to.equal(
           errorMessage("resource_load")
         );
 
         response.body.should.be.a("object");
-        response.body.message[0].should.be.a("object");
-        response.body.message.should.be.a("array");
+        response.body.message.should.be.a("object");
 
         done();
       });
