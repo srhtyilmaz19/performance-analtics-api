@@ -1,6 +1,12 @@
 const Metric = require("../models/metricModel");
 const { returnJsonResponse } = require("../traits/httpTrait");
 const { validationResult } = require("express-validator");
+const redis = require("redis");
+
+const client = redis.createClient({
+  host: "127.0.0.1",
+  port: 6379,
+});
 
 exports.getMetrics = async (req, res) => {
   const errors = validationResult(req);
@@ -12,25 +18,45 @@ exports.getMetrics = async (req, res) => {
   const startDate = req.body.start_date || req.timestamp - 30 * 60;
   const endDate = req.body.end_date || req.timestamp;
 
-  try {
-    const metrics = await Metric.find({
-      domain: req.body.domain,
-      timestamp: {
-        $gte: startDate,
-        $lte: endDate,
-      },
-    }).sort("timestamp");
+  const cacheKey = `get-metrics-between-${startDate}-${endDate}`;
 
-    const data = {
-      startDate,
-      endDate,
-      metrics,
-    };
+  client.get(cacheKey, async (err, data) => {
+    if (data) {
+      return returnJsonResponse(
+        res,
+        JSON.parse(data),
+        200,
+        "metrics retrieved successfully"
+      );
+    }
 
-    return returnJsonResponse(res, data, 200, "metrics retrieved successfully");
-  } catch (e) {
-    return returnJsonResponse(res, null, 404, e);
-  }
+    try {
+      const metrics = await Metric.find({
+        domain: req.body.domain,
+        timestamp: {
+          $gte: startDate,
+          $lte: endDate,
+        },
+      }).sort("timestamp");
+
+      const data = {
+        startDate,
+        endDate,
+        metrics,
+      };
+
+      client.setex(cacheKey, 5 * 1000, JSON.stringify(data));
+
+      return returnJsonResponse(
+        res,
+        data,
+        200,
+        "metrics retrieved successfully"
+      );
+    } catch (e) {
+      return returnJsonResponse(res, null, 404, e);
+    }
+  });
 };
 
 exports.createMetric = async (req, res) => {
